@@ -1,6 +1,6 @@
+@props(['posts'=> []])
 <div class="flex flex-col gap-4 mt-5">
-    <x-post.post-item />
-    <x-post.post-item />
-    <x-post.post-item />
-    <x-post.post-item />
+    @foreach ($posts as $post)
+        <x-post.post-item :post="$post"/>
+    @endforeach
 </div>

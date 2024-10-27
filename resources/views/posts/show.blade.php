@@ -11,8 +11,8 @@
                     <div class="flex items-center gap-2">
                         <img src="{!! asset('uploads/oxcel.png') !!}" alt="" class="rounded-full w-20 aspect-square">
                         <div class="flex flex-col items-start">
-                            <h4 class="text-2xl font-bold text-black">Oxcel Compliance</h4>
-                            <span class="text-sm">16 Oct 2024, 05:27 pm AEST</span>
+                            <h4 class="text-2xl font-bold text-black">{{$post->fname . ' '. $post->lname}}</h4>
+                            <span class="text-sm">{{$post->created_at->diffForHumans()}}</span>
                         </div>
                     </div>
                     {{-- actions --}}
@@ -21,18 +21,7 @@
                 {{-- content --}}
                 <div class="flex flex-col items-start py-4">
                     <h4 class="post-title">Understanding the Process if a Client Does Not Proceed with a Loan</h4>
-                    <article class="py-4">
-                        Hello everyone,
-                            <br/>
-                            At Oxcel Pty Ltd, we strive to provide seamless service and support during the loan approval process. However, it's important to understand the procedure when a client decides not to proceed with an approved loan.
-                            <br/>
-                            If a client chooses not to go ahead with a loan that has already been negotiated and approved, we understand the need to compensate brokers for their time and effort. In such cases, brokers may charge the client the amount specified in the quote, which was initially approved by Oxcel Finance.
-                            <br/>
-                            We hope this helps clarify our protocol and ensures transparency in our operations. If you have any questions or need further information, feel free to reach out.
-                            <br/>
-                            Warm regards,<br/>
-                            Oxcel Pty Ltd Team
-                    </article>
+                    <article class="py-4">{!! $post->description !!}</article>
                 </div>
                 {{-- footer --}}
                 <div class="flex items-center justify-between">

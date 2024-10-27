@@ -25,10 +25,14 @@
                     {{-- menu --}}
                     <div class="hidden group-hover:block absolute bg-white shadow-md rounded-md w-[200px] -z-10 group-hover:z-10">
                         <ul class="flex flex-col">
-                            <a class="hover:bg-gray-200 p-2 duration-200" href="#">My account</a>
+                            @if(Auth::user())
+                                <a class="font-bold border-b p-2 duration-200 capitalize" href="#">Hi, {{Auth::user()->fname . ' '. Auth::user()->lname}}</a>
+                            @endif
+                            <a class="hover:bg-gray-200 p-2 duration-200" href="{{route('account.index')}}">My account</a>
                             <a class="hover:bg-gray-200 p-2 duration-200" href="#">Dashboard</a>
-                            <form action="" class="w-full">
-                                <button class="hover:bg-gray-200 p-2 duration-200 w-full text-left" href="#">Log out</button>
+                            <form action="{{route('logout')}}" method="post" class="w-full">
+                                @csrf
+                                <button class="hover:bg-gray-200 p-2 duration-200 w-full text-left">Log out</button>
                             </form>
                         </ul>
                     </div>
