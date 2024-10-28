@@ -47,4 +47,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function bookmarkedPosts()
+    {
+        return $this->belongsToMany(Posts::class, 'post_bookmarks', 'user_id', 'post_id');
+    }
 }

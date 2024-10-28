@@ -1,22 +1,15 @@
+@props(['post'=> null])
 <div class="flex items-center gap-4">
     {{-- heart --}}
-    <div class="inline-flex items-center text-sm gap-1">
-        <img src="{!! asset('assets/icons/heart.svg') !!}" alt="" class="w-5">
-        <span class="text-medium font-bold">0</span>
-    </div>
+    <x-post.action.favorite :post="$post" />
     {{-- view --}}
-    <div class="inline-flex items-center text-sm gap-1">
-        <img src="{!! asset('assets/icons/eye.svg') !!}" alt="" class="w-5">
-        <span class="text-medium font-bold">0</span>
-    </div>
+    <x-post.action.views :post="$post" />
     {{-- bookmark --}}
-    <div class="inline-flex items-center text-sm gap-1">
-        <img src="{!! asset('assets/icons/bookmark.svg') !!}" alt="" class="w-5">
-        <span class="text-medium font-bold">0</span>
-    </div>
+    @if ($post->user_id)
+        <x-post.action.bookmark-delete :post="$post" />
+    @else
+        <x-post.action.bookmark :post="$post" />
+    @endif
     {{-- share --}}
-    <div class="inline-flex items-center text-sm gap-1">
-        <img src="{!! asset('assets/icons/share.svg') !!}" alt="" class="w-5">
-        <span class="text-medium font-bold">0</span>
-    </div>
+    <x-post.action.share :post="$post" />
 </div>

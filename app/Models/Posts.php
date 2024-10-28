@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class Posts extends Model
@@ -24,13 +25,28 @@ class Posts extends Model
         $query->join('post_category_rels','post_category_rels.post_id','=','posts.id')
             ->join('post_categories','post_categories.id','=','post_category_rels.post_category_id')
             ->join('users','users.id','posts.user_id')
-            ->select([
-                'posts.*',
-                'users.fname',
-                'users.lname'
-            ])
             ->with('categories')
             ->groupBy(['posts.id']);
+
+            if(Auth::user()){
+                // logged in
+                $query
+                ->leftJoin('post_bookmarks','post_bookmarks.user_id','=','users.id')
+                ->leftJoin('favorite_posts','favorite_posts.user_id','=','users.id')
+                ->select([
+                    'posts.*',
+                    'users.fname',
+                    'users.lname',
+                    'post_bookmarks.user_id',
+                    'favorite_posts.id as favorite_by_user'
+                ]);
+            } else {
+                $query->select([
+                    'posts.*',
+                    'users.fname',
+                    'users.lname'
+                ]);
+            }
 
         return $query->paginate($perPage);
     }
@@ -39,14 +55,28 @@ class Posts extends Model
         $query->join('post_category_rels','post_category_rels.post_id','=','posts.id')
             ->join('post_categories','post_categories.id','=','post_category_rels.post_category_id')
             ->join('users','users.id','posts.user_id')
+            ->with('categories');
+
+        if(Auth::user()){
+            // logged in
+            $query
+            ->leftJoin('post_bookmarks','post_bookmarks.user_id','=','users.id')
+            ->leftJoin('favorite_posts','favorite_posts.user_id','=','users.id')
             ->select([
                 'posts.*',
                 'users.fname',
+                'users.lname',
+                'post_bookmarks.user_id',
+                'favorite_posts.id as favorite_by_user'
+            ]);
+        } else {
+            $query->select([
+                'posts.*',
+                'users.fname',
                 'users.lname'
-            ])
-            ->with('categories')
-            ->where('posts.slug', $slug);
+            ]);
+        }
 
-        return $query->first();
+        return $query->where('posts.slug', $slug)->first();
     }
 }

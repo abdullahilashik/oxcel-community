@@ -53,6 +53,8 @@ class PostController extends Controller
 
     public function show($slug){
         $post = Posts::GetPostBySlug($slug);
+        $post->view_count = $post->view_count + 1;
+        $post->save();
 
         return view('posts.show')
             ->with('post', $post);

@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +26,17 @@ Route::group(['prefix'=>'posts','middleware'=>'auth'], function(){
     Route::get('/{slug}',[PostController::class,'show'])->name('posts.show');
 });
 
+Route::group(['prefix'=>'bookmarks','middleware'=>'auth'], function(){
+    Route::get('/', [BookmarkController::class,'index'])->name('bookmarks.index');
+    Route::post('/', [BookmarkController::class,'store'])->name('bookmarks.create');
+    Route::delete('/{id}', [BookmarkController::class,'delete'])->name('bookmarks.delete');
+});
+
+Route::group(['prefix'=>'favorite','middleware'=>'auth'], function(){
+    Route::get('/', [FavoriteController::class,'index'])->name('favorite.index');
+    Route::post('/', [FavoriteController::class,'store'])->name('favorite.create');
+    Route::delete('/{id}', [FavoriteController::class,'delete'])->name('favorite.delete');
+});
 
 Route::group(['prefix'=>'account', 'middleware'=>'auth'], function(){
     Route::get('/', [AccountController::class,'index'])->name('account.index');

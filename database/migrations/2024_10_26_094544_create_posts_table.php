@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug');
             $table->text('description');
+            $table->integer('favorite_count')->default(0);
+            $table->integer('view_count')->default(0);
+            $table->integer('bookmark_count')->default(0);
+            $table->integer('share_count')->default(0);
             $table->foreignIdFor(User::class,'user_id');
             $table->timestamps();
         });
