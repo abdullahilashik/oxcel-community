@@ -1,6 +1,20 @@
 @props(['post' => null])
 
-@if ($post->favorite_by_user == Auth::user()->id)
+@php
+    if ( !function_exists( 'checkFavoriteExists' ) ) {
+    function checkFavoriteExists($post ) {
+        $exists = false;
+        foreach (Auth::user()->favoritePosts as $favorite) {
+            if($favorite->id == $post->id){
+                return true;
+            }
+        }
+        return false;
+    }
+    }
+@endphp
+
+@if (checkFavoriteExists($post))
     <form action="{{ route('favorite.delete',$post->id) }}" method="post" class="">
         @method('delete')
         @csrf

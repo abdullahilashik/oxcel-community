@@ -1,5 +1,5 @@
 <x-layout>
-    <x-hero />
+    <x-hero :categories="$categories" />
     <x-breadcrumb />
     <x-stats total_members="{{$total_members}}" total_posts="{{$total_posts}}" />
     <section id="main" class="">
@@ -11,6 +11,11 @@
                     <form class="flex items-center gap-4">
                         <select name="" id=""  class="rounded shadow p-4">
                             <option value="">All Category</option>
+                            @if ($categories)
+                                @foreach ($categories as $category)
+                                    <option value="{{$category->slug}}">{{$category->title}}</option>
+                                @endforeach
+                            @endif
                         </select>
                         <div class="inline-flex items-center bg-white rounded shadow p-4 gap-2">
                             <span class="font-bold">Sort By</span>

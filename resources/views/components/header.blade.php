@@ -24,7 +24,7 @@
                             <div class="hidden group-hover:block absolute bg-white shadow-md rounded-md w-[200px] -z-10 group-hover:z-10 top-[100%]">
                                 <ul class="flex flex-col">
                                     @if(Auth::user())
-                                        <a class="font-bold border-b p-2 duration-200 capitalize" href="#">Hi, {{Auth::user()->id}} {{Auth::user()->fname . ' '. Auth::user()->lname}}</a>
+                                        <a class="font-bold border-b p-2 duration-200 capitalize" href="#">Hi, {{Auth::user()->fname . ' '. Auth::user()->lname}}</a>
                                     @endif
                                     <a class="hover:bg-gray-200 p-2 duration-200" href="{{route('account.index')}}">My account</a>
                                     <a class="hover:bg-gray-200 p-2 duration-200" href="#">Dashboard</a>

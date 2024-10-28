@@ -16,11 +16,12 @@ class PostController extends Controller
 {
     public function index(){
         $posts = Posts::getPostsPaginated(10);
-        // dd($posts, Auth::user());
         $totalMembers = User::count();
         $totalPosts = Posts::count();
+        $categories = PostCategory::all();
         return view('home')
             ->with('posts', $posts)
+            ->with('categories', $categories)
             ->with('total_members', $totalMembers)
             ->with('total_posts', $totalPosts);
     }
