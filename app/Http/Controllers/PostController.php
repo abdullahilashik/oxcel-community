@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PostCreateRequest;
 use App\Models\PostCategory;
 use App\Models\PostCategoryRel;
+use App\Models\PostComment;
 use App\Models\Posts;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ class PostController extends Controller
 {
     public function index(){
         $posts = Posts::getPostsPaginated(10);
-        // dd($posts);
+        // dd($posts, Auth::user());
         $totalMembers = User::count();
         $totalPosts = Posts::count();
         return view('home')
@@ -55,8 +56,10 @@ class PostController extends Controller
         $post = Posts::GetPostBySlug($slug);
         $post->view_count = $post->view_count + 1;
         $post->save();
-
+        // dd($post);
+        $comments = PostComment::getCommentsByPostId($post->id);
         return view('posts.show')
-            ->with('post', $post);
+            ->with('post', $post)
+            ->with('comments',$comments);
     }
 }

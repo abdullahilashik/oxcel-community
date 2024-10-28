@@ -27,7 +27,7 @@ class BookmarkController extends Controller
         ]);
 
         $post = Posts::find($request->post_id);
-        $post->bookmark_count = $request->bookmark_count + 1;
+        $post->bookmark_count = $post->bookmark_count + 1;
         $post->save();
 
         return back()->with('success','Bookmark Added');

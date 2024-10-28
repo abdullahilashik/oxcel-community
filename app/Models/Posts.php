@@ -36,15 +36,17 @@ class Posts extends Model
                 ->select([
                     'posts.*',
                     'users.fname',
+                    'users.id as uid',
                     'users.lname',
-                    'post_bookmarks.user_id',
+                    // 'post_bookmarks.user_id',
                     'favorite_posts.id as favorite_by_user'
                 ]);
             } else {
                 $query->select([
                     'posts.*',
                     'users.fname',
-                    'users.lname'
+                    'users.lname',
+                    'users.id as uid'
                 ]);
             }
 
@@ -66,14 +68,16 @@ class Posts extends Model
                 'posts.*',
                 'users.fname',
                 'users.lname',
-                'post_bookmarks.user_id',
+                'users.id as uid',
+                // 'post_bookmarks.user_id',
                 'favorite_posts.id as favorite_by_user'
             ]);
         } else {
             $query->select([
                 'posts.*',
                 'users.fname',
-                'users.lname'
+                'users.lname',
+                'users.id as uid'
             ]);
         }
 

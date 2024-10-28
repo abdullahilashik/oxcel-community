@@ -3,7 +3,6 @@
     <x-breadcrumb />
 
     <section>
-
         <div class="container">
             <div class="py-4">
                 @if (session('success'))
@@ -46,13 +45,22 @@
             {{-- comment form --}}
             <div class="flex flex-col mt-12">
                 <h4 class="post-title">Comments (0)</h4>
-                <form action="#" class="py-8">
+                <form action="{{route('comment.create')}}" method="post" class="py-8">
+                    @csrf
+                    <input type="hidden" name="post_id" value="{{$post->id}}">
                     <div class="flex items-center gap-4">
-                        <img src="{!! asset('uploads/oxcel.png') !!}" alt="" class="h-16 aspect-square rounded-full">
-                        <input type="text" class="rounded-md p-6 flex-1 text-black" placeholder="Anything you want to add?">
+                        {{-- <img src="{!! asset('uploads/oxcel.png') !!}" alt="" class="h-16 aspect-square rounded-full"> --}}
+                        <x-forms.comment-form />
                     </div>
                     <button class="btn btn-primary ml-auto mt-6 float-right">Post Comment</button>
                 </form>
+            </div>
+            {{-- comment list --}}
+            <div class="mt-5 flex flex-col gap-4">
+                {{-- comment item --}}
+                @foreach($comments as $comment)
+                    <x-comments.comment-item :comment="$comment" :post="$post" />
+                @endforeach
             </div>
         </div>
     </section>

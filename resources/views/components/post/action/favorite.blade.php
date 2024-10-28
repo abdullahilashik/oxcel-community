@@ -1,6 +1,6 @@
 @props(['post' => null])
 
-@if ($post->favorite_by_user)
+@if ($post->favorite_by_user == Auth::user()->id)
     <form action="{{ route('favorite.delete',$post->id) }}" method="post" class="">
         @method('delete')
         @csrf

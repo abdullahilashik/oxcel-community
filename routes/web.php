@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\PostCommentController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,15 +24,24 @@ Route::group(['prefix'=>'posts','middleware'=>'auth'], function(){
     Route::get('/',[PostController::class,'index'])->name('posts');
     Route::get('/create',[PostController::class,'create'])->name('posts.create');
     Route::post('/create',[PostController::class,'store']);
+
+    Route::group(['prefix'=>'comment'], function(){
+        // post comment related tasks
+        Route::post('/', [PostCommentController::class,'store'])->name('comment.create');
+        Route::post('/reply-to/{post}', [PostCommentController::class,'replyTo'])->name('comment.reply');
+    });
+
+    // stays at bottom always
     Route::get('/{slug}',[PostController::class,'show'])->name('posts.show');
 });
 
+// done
 Route::group(['prefix'=>'bookmarks','middleware'=>'auth'], function(){
     Route::get('/', [BookmarkController::class,'index'])->name('bookmarks.index');
     Route::post('/', [BookmarkController::class,'store'])->name('bookmarks.create');
     Route::delete('/{id}', [BookmarkController::class,'delete'])->name('bookmarks.delete');
 });
-
+// done
 Route::group(['prefix'=>'favorite','middleware'=>'auth'], function(){
     Route::get('/', [FavoriteController::class,'index'])->name('favorite.index');
     Route::post('/', [FavoriteController::class,'store'])->name('favorite.create');
