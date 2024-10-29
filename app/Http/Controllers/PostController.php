@@ -16,7 +16,7 @@ use Carbon\Carbon;
 class PostController extends Controller
 {
     public function index(){
-        $posts = Posts::getPostsPaginated(2);
+        $posts = Posts::getPostsPaginated(10);
         $totalMembers = User::count();
         $totalPosts = Posts::count();
         $categories = PostCategory::all();
@@ -37,7 +37,7 @@ class PostController extends Controller
         $category = $request->get('filter');
         $sort = $request->get('sort');
         $keyword = $request->get('query');
-        $posts = Posts::search($keyword, $category, $sort ,2);
+        $posts = Posts::search($keyword, $category, $sort ,10);
         $totalMembers = User::count();
         $totalPosts = Posts::count();
         $categories = PostCategory::all();
@@ -83,13 +83,15 @@ class PostController extends Controller
 
     public function show($slug){
         $post = Posts::GetPostBySlug($slug);
+
         $post->view_count = $post->view_count + 1;
         $post->save();
 
         $categories = PostCategory::all();
 
-        // dd($post);
+
         $comments = PostComment::getCommentsByPostId($post->id);
+        $comments->appends(request()->query());
         return view('posts.show')
             ->with('post', $post)
             ->with('categories', $categories)

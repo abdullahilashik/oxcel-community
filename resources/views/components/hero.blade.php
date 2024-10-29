@@ -26,7 +26,7 @@
                         @endforeach
                     @endif
                 </select>
-                <div x-show="results.length > 0" class="w-full bg-white border-2 top-[110%] left-0 absolute">
+                <div x-show="query || filter" class="w-full bg-white border-2 top-[110%] left-0 absolute">
                     <ul class="flex flex-col text-black divide-y-2">
                         <template x-for="result in results" :key="result.id">
                             <a href="#" :href="'/posts/'+result.slug">

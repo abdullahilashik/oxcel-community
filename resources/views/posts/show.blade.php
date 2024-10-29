@@ -1,6 +1,6 @@
 <x-layout>
     <x-hero :categories="$categories" />
-    <x-breadcrumb :links="[['title'=> $post->title,'href'=>'/' . $post->slug]]" />
+    <x-breadcrumb :links="[['title'=> $post->title,'href'=>'/posts/' . $post->slug]]" />
 
     <section>
         <div class="container">
@@ -44,7 +44,7 @@
             </div>
             {{-- comment form --}}
             <div class="flex flex-col mt-12">
-                <h4 class="post-title">Comments (0)</h4>
+                <h4 class="post-title">Comments ({{$comments->total()}})</h4>
                 <form action="{{route('comment.create')}}" method="post" class="py-8">
                     @csrf
                     <input type="hidden" name="post_id" value="{{$post->id}}">
@@ -62,6 +62,12 @@
                     <x-comments.comment-item :comment="$comment" :post="$post" />
                 @endforeach
             </div>
+            {{-- pagination --}}
+            @if ($comments)
+                <div class="mt-5 pagination-links">
+                    {{$comments->links()}}
+                </div>
+            @endif
         </div>
     </section>
 </x-layout>

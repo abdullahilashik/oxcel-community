@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call(PostCategorySeeder::class);
         $this->call(UserTableSeeder::class);
+        $this->call(BrokerTophyTableSeeder::class);
     }
 }

@@ -12,6 +12,19 @@ class PostComment extends Model
         'comment'
     ];
 
+    public function replies()
+    {
+        return $this->hasMany(PostCommentReply::class, 'comment_id');
+    }
+
+    /**
+     * Define a relationship to get the user who made the comment.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     // get comments
     public function scopeGetCommentsByPostId($query, $id){
         $query->join('users','users.id','=','post_comments.user_id')
@@ -22,6 +35,7 @@ class PostComment extends Model
                 'users.lname',
                 'users.image_path'
             ])
+            ->with('replies')
             ->where('posts.id', $id);
 
         return $query->paginate(10);

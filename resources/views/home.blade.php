@@ -6,7 +6,7 @@
         <div class="container">
             {{-- create and filter --}}
             <div class="flex itms-center justify-between">
-                <a href="#" class="btn btn-primary">Create new Post</a>
+                <a href="{{route('posts.create')}}" class="btn btn-primary">Create new Post</a>
                 <form action="{{route('posts')}}" class="flex items-center gap-4">
                     <select name="filter" onchange="this.form.submit()" id=""  class="rounded shadow p-4">
                         <option value="">All Category</option>
