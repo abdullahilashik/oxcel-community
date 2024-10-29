@@ -2,7 +2,7 @@
     <div class="container">
         <div class="flex flex-col border-b-2 pb-12 border-gray-400">
 
-            <div class="flex items-start justify-between py-12">
+            <div class="grid grid-cols-2 gap-12 md:gap-2 md:flex md:items-start md:justify-between py-12">
                 <div class="flex flex-col gap-2 items-center">
                     <img src="{!! asset('logo-white.png') !!}" width="150" alt="">
                     <p class="text-sm text-center max-w-xs">Your partner in finance success. Unlocking opportunities, navigating compliance, and empowering your growth.</p>
@@ -39,7 +39,7 @@
                 </div>
             </div>
 
-            <p class="text-center text-sm max-w-5xl mx-auto">
+            <p class="text-center text-sm w-full md:max-w-5xl mx-auto">
                 The information provided on this website is for general informational purposes only. While we strive to keep the content accurate and up-to-date, we make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability, or availability of the information, products, services, or related graphics contained on the website for any purpose. Any reliance you place on such information is strictly at your own risk. Oxcel Broker Services will not be liable for any loss or damage, including without limitation, indirect or consequential loss or damage, or any loss or damage whatsoever arising from loss of data or profits arising out of, or in connection with, the use of this website. Through this website, you may be able to link to other websites that are not under the control of Oxcel Broker Services. We have no control over the nature, content, and availability of those sites. The inclusion of any links does not necessarily imply a recommendation or endorse the views expressed within them.
             </p>
         </div>

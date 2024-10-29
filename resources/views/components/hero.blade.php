@@ -5,8 +5,8 @@
         <div x-data="searchForm()" class="flex flex-col  items-center justify-center h-full min-h-[500px] max-w-[820px] mx-auto">
             <h1 class="text-7xl font-bold">Brokers' Community</h1>
             <p class="text-2xl">Discover insights, share expertise, elevate your network</p>
-            <form @submit.prevent action="#" class="bg-white rounded shadow-md w-full inline-flex items-center justify-between p-3 mt-8 relative">
-                <div class="inline-flex items-center gap-1 flex-1">
+            <form @submit.prevent action="#" class="bg-white rounded shadow-md w-full inline-flex items-center justify-between p-3 mt-8 relative overflow-x-clip">
+                <div class="inline-flex  items-center gap-1 flex-1">
                     <img src="{!! asset('assets/icons/search.svg') !!}" alt="">
                     <input
                         x-model="query"

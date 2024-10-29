@@ -2,13 +2,13 @@
     <div class="container">
         <div class="flex items-center justify-between">
             {{-- logo --}}
-            <div class="flex items-center divide-x-2 divide-black space-x-4">
-                <img src="{!! asset('logo-oxcel.png') !!}" alt="">
-                <a href="/"><img src="{!! asset('primary-logo.png') !!}" alt="" class="pl-2"></a>
+            <div class="hidden md:inline-flex items-center md:divide-x-2 md:divide-black space-x-4">
+                <img src="{!! asset('logo-oxcel.png') !!}" alt="" class="hidden md:block">
+                <a href="/"><img src="{!! asset('primary-logo.png') !!}" alt="" class="md:pl-2"></a>
             </div>
             <div class="flex items-center gap-4">
                 {{-- actions --}}
-                <a href="#" class="title-3">Leaders Panel</a>
+                <a href="{{route('posts')}}" class="title-3">Leaders Panel</a>
                 <a href="{{route('posts.create')}}" class="btn btn-primary">Create new Post</a>
                 {{-- notification icon --}}
                 <div>
@@ -43,6 +43,20 @@
                     </div>
                 </div>
             </div>
+            {{-- <div x-data="{isMobileMenu: false}" class="">
+                <button>
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
+                        </svg>
+                    </span>
+                </button>
+                <div class="absolute right-0 top-0 bg-white h-screen w-44 shadow-md">
+                    <ul class="flex flex-col">
+                        <a href="#" class="p-4 text-left hover:bg-gray-50 duration-200">Create Post</a>
+                    </ul>
+                </div>
+            </div> --}}
         </div>
     </div>
 </section>

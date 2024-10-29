@@ -15,7 +15,7 @@
             {{-- main Post --}}
             <div class="bg-white rounded-md shadow-md p-4">
                 {{-- header --}}
-                <div class="flex items-center justify-between border-b-2 border-gray-200 pb-4">
+                <div class="flex flex-col md:flex-row items-start gap-y-4 md:gap-y-0 md:items-center justify-between border-b-2 border-gray-200 pb-4">
                     {{-- identification --}}
                     <div class="flex items-center gap-2">
                         {{-- user image component --}}
@@ -35,7 +35,7 @@
                     <article class="py-4">{!! $post->description !!}</article>
                 </div>
                 {{-- footer --}}
-                <div class="flex items-center justify-between">
+                <div class="flex flex-col md:flex-row items-start md:items-center md:justify-between">
                     {{-- badges --}}
                     <x-post.badges :categories="$post->categories" />
                     {{-- share --}}

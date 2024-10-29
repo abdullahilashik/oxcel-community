@@ -5,10 +5,10 @@
     <section id="main" class="">
         <div class="container">
             {{-- create and filter --}}
-            <div class="flex itms-center justify-between">
-                <a href="{{route('posts.create')}}" class="btn btn-primary">Create new Post</a>
-                <form action="{{route('posts')}}" class="flex items-center gap-4">
-                    <select name="filter" onchange="this.form.submit()" id=""  class="rounded shadow p-4">
+            <div class="flex flex-col md:flex-row itms-center justify-between">
+                <a href="{{route('posts.create')}}" class="hidden md:block btn btn-primary">Create new Post</a>
+                <form action="{{route('posts')}}" class="flex flex-col md:flex-row gap-y-4 md:gap-y-0 items-center gap-4">
+                    <select name="filter" onchange="this.form.submit()" id=""  class="w-full mt-4 md:mt-0 md:w-auto rounded shadow p-4">
                         <option value="">All Category</option>
                         @if ($categories)
                             @foreach ($categories as $category)
@@ -18,9 +18,9 @@
                             @endforeach
                         @endif
                     </select>
-                    <div class="inline-flex items-center bg-white rounded shadow p-4 gap-2">
+                    <div class="inline-flex items-center bg-white rounded shadow pl-4 py-4 gap-2 w-full md:w-auto">
                         <span class="font-bold">Sort By</span>
-                        <select name="sort" onchange="this.form.submit()" id="" class="">
+                        <select name="sort" class="flex-1" onchange="this.form.submit()" id="" class="">
                             <option value="">Sort posts</option>
                             <option {{ request('sort') == 'newest' ? 'selected' : '' }} value="newest">Newest to Oldest</option>
                             <option {{ request('sort') == 'oldest' ? 'selected' : '' }} value="oldest">Oldest to Newest</option>

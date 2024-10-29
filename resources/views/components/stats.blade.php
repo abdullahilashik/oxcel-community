@@ -2,7 +2,7 @@
 <section class="pb-12 ">
     <div class="container">
         <div class="w-full bg-white rounded-md shadow-md p-12 border-2 border-gray-50">
-            <div class="flex items-center justify-around">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-around gap-4 md:gap-0">
                 {{-- total members --}}
                 <div class="flex items-center gap-4">
                     <img src="{!! asset('assets/icons/person.svg') !!}" alt="" height="60" width="60" class="rounded-full bg-gray-200 p-2 flex items-center justify-center">
