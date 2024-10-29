@@ -48,6 +48,10 @@ class User extends Authenticatable
         ];
     }
 
+    public function comments(){
+        return $this->hasMany(Posts::class, 'user_id');
+    }
+
     public function bookmarkedPosts()
     {
         return $this->belongsToMany(Posts::class, 'post_bookmarks', 'user_id', 'post_id');

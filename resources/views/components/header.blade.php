@@ -19,7 +19,7 @@
                     <div class="inline-flex gap-1">
                         {{-- <img src="{!! asset('uploads/oxcel.png') !!}" class="w-[41px] rounded-full" alt=""> --}}
                         @auth
-                            <x-user.avatar image="{{Auth::user()->image_path}}" small/>
+                            <x-user.avatar image="{{Auth::user()->image_path}}" :user="Auth::user()" small/>
                             {{-- menu --}}
                             <div class="hidden group-hover:block absolute bg-white shadow-md rounded-md w-[200px] -z-10 group-hover:z-10 top-[100%]">
                                 <ul class="flex flex-col">

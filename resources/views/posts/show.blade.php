@@ -19,7 +19,7 @@
                     {{-- identification --}}
                     <div class="flex items-center gap-2">
                         {{-- user image component --}}
-                        <x-user.avatar image="{{$post->image_path}}" />
+                        <x-user.avatar image="{{$post->image_path}}" :user="$post->user" />
 
                         <div class="flex flex-col items-start">
                             <h4 class="text-2xl font-bold text-black">{{$post->fname . ' '. $post->lname}}</h4>

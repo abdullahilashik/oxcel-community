@@ -19,6 +19,9 @@ class Posts extends Model
     {
         return $this->belongsToMany(PostCategory::class, 'post_category_rels', 'post_id', 'post_category_id');
     }
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
     // search posts with keyword and category; sort them later
     public function scopeSearch($query, $keyword, $category, $sort, $paginate=false)
@@ -27,6 +30,7 @@ class Posts extends Model
             ->join('post_categories', 'post_categories.id', '=', 'post_category_rels.post_category_id')
             ->join('users', 'users.id', 'posts.user_id')
             ->with('categories')
+            ->with('user')
             ->groupBy(['posts.id']);
 
         if ($keyword) {
@@ -97,6 +101,7 @@ class Posts extends Model
             ->join('post_categories', 'post_categories.id', '=', 'post_category_rels.post_category_id')
             ->join('users', 'users.id', 'posts.user_id')
             ->with('categories')
+            ->with('user')
             ->groupBy(['posts.id']);
 
         if (Auth::user()) {
@@ -129,7 +134,8 @@ class Posts extends Model
         $query->join('post_category_rels', 'post_category_rels.post_id', '=', 'posts.id')
             ->join('post_categories', 'post_categories.id', '=', 'post_category_rels.post_category_id')
             ->join('users', 'users.id', 'posts.user_id')
-            ->with('categories');
+            ->with('categories')
+            ->with('user');
 
         if (Auth::user()) {
             // logged in

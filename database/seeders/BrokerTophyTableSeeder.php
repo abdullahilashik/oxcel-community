@@ -16,33 +16,27 @@ class BrokerTophyTableSeeder extends Seeder
         $items = [
             [
                 'id'=>1,
-                'name'=>'Baby',
-                'slug'=>'baby',
+                'name'=>'Silver',
+                'slug'=>'silver',
                 'threshold'=> 1
             ],
             [
                 'id'=>2,
-                'name'=>'Level 2',
-                'slug'=>'level-2',
-                'threshold'=> 3
+                'name'=>'Bronze',
+                'slug'=>'bronze',
+                'threshold'=> 2
             ],
             [
                 'id'=>3,
-                'name'=>'Level 3',
-                'slug'=>'level-3',
-                'threshold'=> 5
+                'name'=>'Gold',
+                'slug'=>'gold',
+                'threshold'=> 3
             ],
             [
                 'id'=>4,
-                'name'=>'Level 4',
-                'slug'=>'level-5',
-                'threshold'=> 10
-            ],
-            [
-                'id'=>5,
-                'name'=>'Supreme',
-                'slug'=>'supreme',
-                'threshold'=> 100
+                'name'=>'Diamond',
+                'slug'=>'diamond',
+                'threshold'=> 4
             ],
         ];
 

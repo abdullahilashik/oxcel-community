@@ -13,7 +13,7 @@
                     {{-- content --}}
                     <div class="flex items-center gap-2">
                         {{-- <img src="{!! asset('uploads/oxcel.png') !!}" alt="" class="w-12 aspect-square rounded-full"> --}}
-                        <x-user.avatar image="{{$post->image_path}}" small/>
+                        <x-user.avatar image="{{$post->image_path}}" :user="$post->user" small/>
                         <div class="flex flex-col gap-0 text-sm">
                             <h4 class="font-bold">{{$post->fname.' '.$post->lname}}</h4>
                             <span class="font-light">{{$post->created_at->diffForHumans()}}</span>
