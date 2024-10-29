@@ -11,19 +11,47 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Str;
+use Carbon\Carbon;
 
 class PostController extends Controller
 {
     public function index(){
-        $posts = Posts::getPostsPaginated(10);
+        $posts = Posts::getPostsPaginated(2);
         $totalMembers = User::count();
         $totalPosts = Posts::count();
         $categories = PostCategory::all();
+        $postsCount = Posts::whereMonth('created_at', Carbon::now()->month)
+                  ->whereYear('created_at', Carbon::now()->year)
+                  ->count();
+
+
         return view('home')
             ->with('posts', $posts)
             ->with('categories', $categories)
             ->with('total_members', $totalMembers)
-            ->with('total_posts', $totalPosts);
+            ->with('total_posts', $totalPosts)
+            ->with('posts_per_month', $postsCount);
+    }
+
+    public function search(Request $request){
+        $category = $request->get('filter');
+        $sort = $request->get('sort');
+        $keyword = $request->get('query');
+        $posts = Posts::search($keyword, $category, $sort ,2);
+        $totalMembers = User::count();
+        $totalPosts = Posts::count();
+        $categories = PostCategory::all();
+        $postsCount = Posts::whereMonth('created_at', Carbon::now()->month)
+                  ->whereYear('created_at', Carbon::now()->year)
+                  ->count();
+        $posts->appends($request->query());
+
+        return view('home')
+            ->with('posts', $posts)
+            ->with('categories', $categories)
+            ->with('total_members', $totalMembers)
+            ->with('total_posts', $totalPosts)
+            ->with('posts_per_month', $postsCount);
     }
 
     public function create(){
@@ -57,10 +85,14 @@ class PostController extends Controller
         $post = Posts::GetPostBySlug($slug);
         $post->view_count = $post->view_count + 1;
         $post->save();
+
+        $categories = PostCategory::all();
+
         // dd($post);
         $comments = PostComment::getCommentsByPostId($post->id);
         return view('posts.show')
             ->with('post', $post)
+            ->with('categories', $categories)
             ->with('comments',$comments);
     }
 }

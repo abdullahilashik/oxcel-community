@@ -26,3 +26,7 @@
 .post-title {
     @apply text-black font-bold text-2xl
 }
+
+span[aria-current="page"] {
+    @apply opacity-60 hover:cursor-not-allowed
+}

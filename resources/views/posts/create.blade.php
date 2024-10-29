@@ -1,6 +1,6 @@
 <x-layout>
-    <x-hero />
-    <x-breadcrumb />
+    <x-hero :categories="$categories" />
+    <x-breadcrumb :links="[['title'=> 'Create post','href'=>'#']]" />
 
     <div class="container">
         @if(session('success'))

@@ -1,6 +1,6 @@
 <x-layout>
-    <x-hero />
-    <x-breadcrumb />
+    <x-hero :categories="$categories" />
+    <x-breadcrumb :links="[['title'=> $post->title,'href'=>'/' . $post->slug]]" />
 
     <section>
         <div class="container">
