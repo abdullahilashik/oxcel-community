@@ -5,7 +5,7 @@
         function getUserBadge($user)
         {
             $trophy = \App\Models\BrokerTrophy::orderBy('threshold','desc')->where('threshold','<=',count($user->comments))->pluck('slug');
-            if($trophy){
+            if(count($trophy) > 0){
                 return $trophy[0];
             }
             return null;

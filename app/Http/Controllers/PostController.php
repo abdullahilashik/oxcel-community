@@ -24,7 +24,6 @@ class PostController extends Controller
                   ->whereYear('created_at', Carbon::now()->year)
                   ->count();
 
-
         return view('home')
             ->with('posts', $posts)
             ->with('categories', $categories)
