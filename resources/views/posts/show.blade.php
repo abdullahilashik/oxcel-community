@@ -53,6 +53,9 @@
                         <x-forms.comment-form />
                     </div>
                     <button class="btn btn-primary ml-auto mt-6 float-right">Post Comment</button>
+                    @error('comment')
+                        <span class="text-red-600 font-bold">{{$message}}</span>
+                    @enderror
                 </form>
             </div>
             {{-- comment list --}}

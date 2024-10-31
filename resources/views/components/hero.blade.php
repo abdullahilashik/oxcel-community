@@ -11,13 +11,14 @@
                     <input
                         x-model="query"
                         @input="debouncedFetchData"
+                        id="search-input"
                         type="text" placeholder="Search for posts.."
                         class="flex-1 outline-none text-black px-2">
                 </div>
                 <select
                     x-model="filter"
                     @change="debouncedFetchData"
-                    name="#" id="#"
+                    name="#" id="category-select"
                     class="text-black border-l-2 border-gray-900 pl-2 outline-none">
                     <option value="">All Category</option>
                     @if ($categories)
@@ -26,8 +27,8 @@
                         @endforeach
                     @endif
                 </select>
-                <div x-show="query || filter" class="w-full bg-white border-2 top-[110%] left-0 absolute">
-                    <ul class="flex flex-col text-black divide-y-2">
+                <div x-show="query || filter" class="w-full border-2 top-[110%] left-0 absolute">
+                    <ul x-show="results.length > 0" class="flex flex-col text-black divide-y-2 bg-white">
                         <template x-for="result in results" :key="result.id">
                             <a href="#" :href="'/posts/'+result.slug">
                                 <li class="flex flex-col gap-2 hover:bg-gray-100 p-2">
@@ -43,6 +44,12 @@
                             </a>
                         </template>
                     </ul>
+                    <span x-show="loading" class="mx-auto bg-white text-black w-full flex justify-center p-4">
+                        Please wait....
+                    </span>
+                    <span x-show="!loading && results.length < 1" class="mx-auto bg-white text-black w-full flex justify-center p-4">
+                        No data for this search
+                    </span>
                 </div>
             </form>
         </div>
@@ -55,35 +62,7 @@
             query: '', // Holds the search input value
             filter: '', // Holds the selected filter value
             results: [], // Array to store the API results
-
-            // Method to fetch data from the API
-            async fetchData() {
-                try {
-                    console.log('Query: ', this.query);
-                    console.log('Filter: ', this.filter);
-                    // Call the API with query and filter
-                    const response = await fetch(`/api/posts/search?query=${this.query}&filter=${this.filter}`);
-                    const data = await response.json();
-
-                    // Update the results array with fetched data
-                    this.results = data;
-                    console.log('Results: ', this.results);
-                } catch (error) {
-                    console.error("Error fetching data:", error);
-                    this.results = [];
-                }
-            }
-        }
-    }
-</script>
-
-
-<script>
-    function searchForm() {
-        return {
-            query: '', // Holds the search input value
-            filter: '', // Holds the selected filter value
-            results: [], // Array to store the API results
+            loading: false,
             debounceTimeout: null, // Timeout variable for debounce
 
             // Debounced method to fetch data
@@ -93,6 +72,8 @@
 
                 // Set a new timeout for 500ms before calling the fetchData method
                 this.debounceTimeout = setTimeout(() => {
+                    this.loading = true;
+                    // this.results = [];
                     this.fetchData();
                 }, 500);
             },
@@ -107,9 +88,11 @@
                     // Update the results array with fetched data
                     this.results = data;
                     console.log('Result data: ', this.results);
+                    this.loading = false;
                 } catch (error) {
                     console.error("Error fetching data:", error);
                     this.results = [];
+                    this.loading = false;
                 }
             }
         }

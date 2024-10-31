@@ -15,12 +15,18 @@
             <div class="flex flex-col items-start bg-green gap-2">
                 <label class="text-3xl font-extrabold text-black" for="title">Title</label>
                 <input type="text" name="title" class="text-black shadow rounded-md p-6 w-full" placeholder="Add a title to your post"/>
+                @error('title')
+                    <span class="text-red-600 font-bold">{{$message}}</span>
+                @enderror
             </div>
             {{-- description --}}
             <div class="flex flex-col items-start bg-green gap-2">
                 <label class="text-3xl font-extrabold text-black" for="title">Description</label>
                 {{-- <input type="text" class="text-black shadow rounded-md px-4 py-3 w-full" placeholder="Add a title to your post"/> --}}
                 <x-forms.tinymce-editor/>
+                @error('description')
+                    <span class="text-red-600 font-bold">{{$message}}</span>
+                @enderror
             </div>
             {{-- category multi select --}}
             <div class="flex flex-col items-start bg-green gap-2">

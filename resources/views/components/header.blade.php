@@ -7,13 +7,15 @@
                 <a href="/"><img src="{!! asset('primary-logo.png') !!}" alt="" class="md:pl-2"></a>
             </div>
             <div class="flex items-center gap-4">
-                {{-- actions --}}
-                <a href="{{route('posts')}}" class="title-3">Leaders Panel</a>
-                <a href="{{route('posts.create')}}" class="btn btn-primary">Create new Post</a>
-                {{-- notification icon --}}
-                <div>
-                    <span><img src="{!! asset('assets/icons/notification.svg') !!}" height="20px" width="20px" alt=""></span>
-                </div>
+                @auth
+                    {{-- actions --}}
+                    <a href="{{route('posts')}}" class="title-3">Leaders Panel</a>
+                    <a href="{{route('posts.create')}}" class="btn btn-primary">Create new Post</a>
+                    {{-- notification icon --}}
+                    <div>
+                        <span><img src="{!! asset('assets/icons/notification.svg') !!}" height="20px" width="20px" alt=""></span>
+                    </div>
+                @endauth
                 {{-- account dropdown --}}
                 <div class="relative group">
                     <div class="inline-flex gap-1">

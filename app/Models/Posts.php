@@ -5,15 +5,29 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Laravel\Scout\Searchable;
 
 class Posts extends Model
 {
+    use Searchable;
+
+
     protected $fillable = [
         'title',
         'slug',
         'description',
         'user_id'
     ];
+
+    // Define the data you want to index
+    // public function toSearchableArray()
+    // {
+    //     return [
+    //         'id' => $this->id,
+    //         'title' => $this->title,
+    //         'description' => $this->description,
+    //     ];
+    // }
 
     public function categories()
     {
@@ -22,6 +36,44 @@ class Posts extends Model
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function toSearchableArray()
+        {
+            return [
+                'id' => $this->id,
+                'title' => $this->title,
+                'slug' => $this->slug,
+                'description' => $this->description,
+                'user' => [
+                    'id' => $this->user->id,
+                    'fname' => $this->user->fname,
+                    'lname' => $this->user->lname
+                ],
+                'categories' => $this->categories->pluck('slug')->toArray(), // Array of category names
+            ];
+    }
+    public function toArray()
+        {
+            return [
+                'id' => $this->id,
+                'title' => $this->title,
+                'slug' => $this->slug,
+                'description' => $this->description,
+                'user' => [
+                    'id' => $this->user->id,
+                    'fname' => $this->user->fname,
+                    'lname' => $this->user->lname
+                ],
+                'categories' => $this->categories->pluck('slug')->toArray()
+            ];
+    }
+
+    protected function makeAllSearchableUsing($query){
+        return $query
+                        ->with('user')
+                        ->with('categories');
+    }
+
 
     // search posts with keyword and category; sort them later
     public function scopeSearch($query, $keyword, $category, $sort, $paginate=false)
