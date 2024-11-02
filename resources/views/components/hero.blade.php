@@ -27,7 +27,7 @@
                         @endforeach
                     @endif
                 </select>
-                <div x-show="query || filter" class="w-full border-2 top-[110%] left-0 absolute">
+                <div x-show="query || filter" class="w-full border-2 top-[110%] left-0 absolute max-h-[200px] overflow-y-auto">
                     <ul x-show="results.length > 0" class="flex flex-col text-black divide-y-2 bg-white">
                         <template x-for="result in results" :key="result.id">
                             <a href="#" :href="'/posts/'+result.slug">
@@ -35,11 +35,11 @@
                                     <div class="flex items-center justify-between">
                                         <h4 x-text="result.title"></h4>
                                         <div class="flex items-center text-[10px] divide-x-2 space-x-4">
-                                            <span>Posted by: <span><span x-text="result.fname"></span> <span x-text="result.lname"></span></span></span>
+                                            <span>Posted by: <span><span x-text="result.user.fname"></span> <span x-text="result.user.lname"></span></span></span>
                                             <span class="pl-4" x-text="result.created_at"></span>
                                         </div>
                                     </div>
-                                    <article class="text-[10px]" x-html="result.description"></article>
+                                    <article class="text-[10px]" x-html="result.description" data-limit="120"></article>
                                 </li>
                             </a>
                         </template>

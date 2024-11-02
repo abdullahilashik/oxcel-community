@@ -10,13 +10,13 @@ use Illuminate\Notifications\Notification;
 class PostCommentNotification extends Notification
 {
     use Queueable;
-
+    public $comment;
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct($comment)
     {
-        //
+        $this->comment = $comment;
     }
 
     /**
@@ -47,8 +47,13 @@ class PostCommentNotification extends Notification
      */
     public function toArray(object $notifiable): array
     {
+        // dd($notifiable, $this->comment);
+
         return [
-            //
+            'message' => 'You have a new comment',
+            'post' => $this->comment->post_id,
+            'created_at'=> $this->comment->created_at,
+            'comment_by' => $this->comment->user_id,
         ];
     }
 }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Posts;
 use Illuminate\Http\Request;
+use Algolia\AlgoliaSearch\SearchClient;
+use Carbon\Carbon;
 
 class ApiPostController extends Controller
 {
@@ -91,18 +93,44 @@ class ApiPostController extends Controller
         ];
     }
 
-    public function search(Request $request)
+    public function search3(Request $request)
     {
         $query = $request->input('query');
         $category = $request->input('filter');
         $user = $request->input('user');
 
         $posts = Posts::search($query)
-            ->when($category, function($query) use ($category){
-                return $query->whereIn('categories',$category);
-            })
+            ->where('categories',$category)
             ->get();
 
         return response()->json($posts);
+    }
+
+
+    public function search(Request $request){
+        $query = $request->input('query');
+        $category = $request->input('filter');
+
+        // Initialize the Algolia client with your Algolia credentials
+        $client = SearchClient::create(
+            config('scout.algolia.id'),
+            config('scout.algolia.secret')
+        );
+
+        // Set the index name, as defined in your Product model’s searchable index
+        $index = $client->initIndex((new  Posts)->searchableAs());
+
+        // Perform the search with facetFilters to match the category
+        $results = $index->search($query, [
+            'facetFilters' => [
+                ['categories:' . $category]
+            ],
+        ]);
+        $items =[];
+        foreach($results['hits'] as $hit){
+            $item = [...$hit, 'created_at'=> Carbon::parse($hit['created_at'])->diffForHumans()];
+            array_push($items, $item);
+        }
+        return $items;
     }
 }

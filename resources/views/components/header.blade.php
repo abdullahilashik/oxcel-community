@@ -12,8 +12,25 @@
                     <a href="{{route('posts')}}" class="title-3">Leaders Panel</a>
                     <a href="{{route('posts.create')}}" class="btn btn-primary">Create new Post</a>
                     {{-- notification icon --}}
-                    <div>
+                    <div class="relative group">
                         <span><img src="{!! asset('assets/icons/notification.svg') !!}" height="20px" width="20px" alt=""></span>
+                        <div class="hidden group-hover:block absolute -right-[300%] group-hover:-right-[100%] rounded shadow-md z-10 bg-white h-72 w-64 overflow-y-auto">
+                            <ul class="flex flex-col">
+                                <div class="flex w-full items-center justify-between">
+                                    <span class="text-[12px] p-2">Notifications ({{count(Auth::user()->unreadNotifications)}})</span>
+                                    <a href="{{route('posts.notification')}}" class="text-[12px] hover:underline ml-auto p-2">Mark All read</a>
+                                </div>
+                                @foreach (Auth::user()->unreadNotifications as $notification)
+                                    <a href="{{route('posts.show', App\Models\Posts::find($notification->data['post'])->slug)}}" class="p-4 hover:bg-gray-50 w-full">
+                                        <div class="flex flex-col text-[10px]">
+                                            <span class="font-bold">New Comment</span>
+                                            <span class="font-light">{{$notification->data['message']}}</span>
+                                        </div>
+                                    </a>
+                                @endforeach
+
+                            </ul>
+                        </div>
                     </div>
                 @endauth
                 {{-- account dropdown --}}

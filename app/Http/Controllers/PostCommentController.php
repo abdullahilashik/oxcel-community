@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Requests\CommentReplyCreateRequest;
+use App\Notifications\PostCommentNotification;
 use Illuminate\Http\Request;
 use App\Http\Requests\CommentCreateRequest;
 use App\Models\PostComment;
@@ -24,7 +25,8 @@ class PostCommentController extends Controller
             ...$validated,
             'user_id'=> Auth::user()->id
         ]);
-
+        $post = Posts::find($request->post_id);
+        $post->user->notify(new PostCommentNotification($comment));
         return back()->with('success','New Comment Added');
     }
 

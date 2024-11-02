@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Laravel\Scout\Searchable;
 
 class Posts extends Model
 {
-    use Searchable;
+    use Searchable, Notifiable;
 
 
     protected $fillable = [
@@ -44,6 +45,7 @@ class Posts extends Model
                 'title' => $this->title,
                 'slug' => $this->slug,
                 'description' => $this->description,
+                'created_at'=> $this->created_at,
                 'user' => [
                     'id' => $this->user->id,
                     'fname' => $this->user->fname,
@@ -52,6 +54,7 @@ class Posts extends Model
                 'categories' => $this->categories->pluck('slug')->toArray(), // Array of category names
             ];
     }
+
     public function toArray()
         {
             return [
@@ -59,6 +62,7 @@ class Posts extends Model
                 'title' => $this->title,
                 'slug' => $this->slug,
                 'description' => $this->description,
+                'created_at'=> $this->created_at,
                 'user' => [
                     'id' => $this->user->id,
                     'fname' => $this->user->fname,
@@ -166,8 +170,8 @@ class Posts extends Model
                     'users.fname',
                     'users.id as uid',
                     'users.lname',
-                    // 'post_bookmarks.user_id',
-                    'favorite_posts.id as favorite_by_user'
+                    'favorite_posts.user_id as favorite_by_user'
+                    // 'favorite_posts.id as favorite_by_user'
                 ]);
         } else {
             $query->select([

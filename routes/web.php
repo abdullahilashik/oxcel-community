@@ -13,6 +13,8 @@ Route::get('/',[PostController::class,'index'])->name('posts')->middleware('auth
 Route::group([],function(){
     Route::get('/login', [AuthController::class,'showLogin'])->name('login')->middleware('guest');
     Route::post('/login', [AuthController::class,'login']);
+    Route::get('/verify-otp', [AuthController::class, 'verifyOtpForm'])->name('verify.otp');
+    Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);
 
     Route::get('/register', [AuthController::class,'showRegister'])->name('register')->middleware('guest');
     Route::post('/register', [AuthController::class,'register']);
@@ -23,6 +25,7 @@ Route::group([],function(){
 Route::group(['prefix'=>'posts','middleware'=>'auth'], function(){
     Route::get('/',[PostController::class,'search'])->name('posts.index');
     Route::get('/create',[PostController::class,'create'])->name('posts.create');
+    Route::get('/mark-read',[PostController::class,'markAsRead'])->name('posts.notification');
     Route::post('/create',[PostController::class,'store']);
 
     Route::group(['prefix'=>'comment'], function(){

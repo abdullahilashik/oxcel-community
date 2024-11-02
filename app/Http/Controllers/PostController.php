@@ -17,13 +17,14 @@ class PostController extends Controller
 {
     public function index(){
         $posts = Posts::getPostsPaginated(10);
+        // dd($posts);
         $totalMembers = User::count();
         $totalPosts = Posts::count();
         $categories = PostCategory::all();
         $postsCount = Posts::whereMonth('created_at', Carbon::now()->month)
                   ->whereYear('created_at', Carbon::now()->year)
                   ->count();
-
+        // dd(Auth::user()->unreadNotifications[0]->data);
         return view('home')
             ->with('posts', $posts)
             ->with('categories', $categories)
@@ -32,6 +33,12 @@ class PostController extends Controller
             ->with('posts_per_month', $postsCount);
     }
 
+    public function markAsRead(){
+        $user = Auth::user();
+        // Mark all unread notifications as read
+        $user->unreadNotifications->markAsRead();
+        return redirect()->back();
+    }
     public function search(Request $request){
         $category = $request->get('filter');
         $sort = $request->get('sort');
@@ -75,7 +82,7 @@ class PostController extends Controller
             array_push($categories, $temp);
         }
         PostCategoryRel::insert($categories);
-        return back()
+        return redirect('/')
                 ->with('success', 'Post Created successfully!')
                 ->with('post',$post);
     }
