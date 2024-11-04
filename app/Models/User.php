@@ -6,12 +6,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use Laravel\Scout\Searchable;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, Searchable;
+    use HasFactory, Notifiable, Searchable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -36,6 +37,13 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    // public function sendPasswordResetNotification($token): void
+    // {
+    //     $url = 'https://example.com/reset-password?token=' . $token;
+
+    //     $this->notify(new ResetPasswordNotification($url));
+    // }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -49,7 +57,8 @@ class User extends Authenticatable
         ];
     }
 
-    public function comments(){
+    public function comments()
+    {
         return $this->hasMany(Posts::class, 'user_id');
     }
 

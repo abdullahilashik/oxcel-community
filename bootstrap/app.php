@@ -13,10 +13,15 @@ return Application::configure(basePath: dirname(__DIR__))
         api: __DIR__.'/../routes/api.php',
         apiPrefix: 'api/',
         then: function(){
-            Route::middleware('web')
-            ->prefix('custom')
-            ->name('custom.')
-            ->group(base_path('routes/custom.php'));
+            // Route::middleware(middleware: 'web')
+            // ->prefix('custom')
+            // ->name('custom.')
+            // ->group(base_path('routes/custom.php'));
+
+            Route::prefix('api')
+            ->middleware('api')
+            ->namespace('App\Http\Controllers') // <---------
+            ->group(base_path('routes/api.php'));
         }
     )
     ->withMiddleware(function (Middleware $middleware) {
