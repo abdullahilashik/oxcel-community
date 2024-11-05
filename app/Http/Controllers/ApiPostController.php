@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Posts;
 use Illuminate\Http\Request;
 use Algolia\AlgoliaSearch\SearchClient;
+use App\Models\User;
 use Carbon\Carbon;
 
 class ApiPostController extends Controller
@@ -12,9 +13,41 @@ class ApiPostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $category = $request->get('filter');
+        $sort = $request->get('sort');
+        $keyword = $request->get('query');
+        $posts = Posts::searchPost($keyword, $category, $sort ,10);
+        return response()->json($posts);
+    }
+
+    // search for posts with auto complete
+    public function searchAutoComplete(Request $request){
+        $query = $request->input('query');
+        $category = $request->input('filter');
+
+        // Initialize the Algolia client with your Algolia credentials
+        $client = SearchClient::create(
+            config('scout.algolia.id'),
+            config('scout.algolia.secret')
+        );
+
+        // Set the index name, as defined in your Product model’s searchable index
+        $index = $client->initIndex((new  Posts)->searchableAs());
+
+        // Perform the search with facetFilters to match the category
+        $results = $index->search($query, [
+            'facetFilters' => [
+                ['categories:' . $category]
+            ],
+        ]);
+        $items =[];
+        foreach($results['hits'] as $hit){
+            $item = [...$hit, 'created_at'=> Carbon::parse($hit['created_at'])->diffForHumans()];
+            array_push($items, $item);
+        }
+        return $items;
     }
 
     /**
@@ -47,6 +80,19 @@ class ApiPostController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function stats(){
+        $totalMembers = User::count();
+        $totalPosts = Posts::count();
+        $postsCount = Posts::whereMonth('created_at', Carbon::now()->month)
+                  ->whereYear('created_at', Carbon::now()->year)
+                  ->count();
+        return [
+            'total_members' => $totalMembers,
+            'total_posts' => $totalPosts,
+            'total_posts_month' => $postsCount
+        ];
     }
 
 

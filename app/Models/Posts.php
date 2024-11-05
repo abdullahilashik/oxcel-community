@@ -80,7 +80,7 @@ class Posts extends Model
 
 
     // search posts with keyword and category; sort them later
-    public function scopeSearch($query, $keyword, $category, $sort, $paginate=false)
+    public function scopeSearchPost($query, $keyword, $category, $sort, $paginate=false)
     {
         $query->join('post_category_rels', 'post_category_rels.post_id', '=', 'posts.id')
             ->join('post_categories', 'post_categories.id', '=', 'post_category_rels.post_category_id')

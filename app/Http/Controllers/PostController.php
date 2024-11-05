@@ -43,7 +43,7 @@ class PostController extends Controller
         $category = $request->get('filter');
         $sort = $request->get('sort');
         $keyword = $request->get('query');
-        $posts = Posts::search($keyword, $category, $sort ,10);
+        $posts = Posts::searchPost($keyword, $category, $sort ,10);
         $totalMembers = User::count();
         $totalPosts = Posts::count();
         $categories = PostCategory::all();
