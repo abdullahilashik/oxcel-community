@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\ApiPostCategoryController;
+use App\Http\Controllers\Api\ApiPostCommentController;
 use App\Http\Controllers\APIAuthController;
 use App\Http\Controllers\ApiPostController;
 use App\Models\User;
@@ -18,6 +19,21 @@ Route::group(['prefix'=>'posts'], function(){
     Route::get('/search', [ApiPostController::class,'search'])->name('posts.search');
     Route::post('/search', [ApiPostController::class,'searchAutoComplete'])->name('posts.search');
     Route::get('/stats', [ApiPostController::class,'stats'])->name('posts.stats');
+    Route::post('/create', [ApiPostController::class,'store'])->middleware('auth:sanctum');
+    Route::get('/fetch/{slug}', [ApiPostController::class, 'show']);
+    Route::get('/view-increase/{post}', [ApiPostController::class, 'postView'])->middleware('auth:sanctum');
+    Route::get('/bookmark-check/{post}', [ApiPostController::class, 'bookmarkCheck'])->middleware('auth:sanctum');
+    Route::get('/favorite-check/{post}', [ApiPostController::class, 'favoriteCheck'])->middleware('auth:sanctum');
+    Route::get('/favorite-toggle/{post}', [ApiPostController::class, 'favoriteToggle'])->middleware('auth:sanctum');
+    Route::get('/bookmark-toggle/{post}', [ApiPostController::class, 'bookmarkToggle'])->middleware('auth:sanctum');
+
+    // comments
+    Route::group(['prefix'=>'comment'], function(){
+        Route::post('/', [ApiPostCommentController::class,'store'])->middleware('auth:sanctum');
+        Route::post('/reply', [ApiPostCommentController::class, 'replyTo'])->middleware('auth:sanctum');
+        // get all comments
+        Route::get('/{post}', [ApiPostCommentController::class,'index'])->middleware(('auth:sanctum'));
+    });
 });
 
 Route::group(['prefix'=>'category'], function(){

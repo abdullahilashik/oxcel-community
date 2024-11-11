@@ -35,7 +35,7 @@ class PostComment extends Model
                 'users.lname',
                 'users.image_path'
             ])
-            ->with('replies')
+            ->with('replies.user')
             ->where('posts.id', $id);
 
         return $query->paginate(10);

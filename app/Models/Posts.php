@@ -63,6 +63,9 @@ class Posts extends Model
                 'slug' => $this->slug,
                 'description' => $this->description,
                 'created_at'=> $this->created_at,
+                'favorite_count' => $this->favorite_count,
+                'view_count' => $this->view_count,
+                'bookmark_count' => $this->bookmark_count,
                 'user' => [
                     'id' => $this->user->id,
                     'fname' => $this->user->fname,
